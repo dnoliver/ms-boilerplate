@@ -23,4 +23,6 @@ COPY --from=builder ${VIRTUAL_ENV} ${VIRTUAL_ENV}
 
 COPY app ./app
 
+EXPOSE 8000
+
 ENTRYPOINT ["fastapi", "run"]
