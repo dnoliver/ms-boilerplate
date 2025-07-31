@@ -2,6 +2,7 @@ import unittest
 from fastapi.testclient import TestClient
 from app.main import app
 
+
 class TestMain(unittest.TestCase):
     def setUp(self):
         self.client = TestClient(app)
@@ -25,6 +26,7 @@ class TestMain(unittest.TestCase):
         response = self.client.get("/divide?a=7.5&b=2.5")
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json(), {"result": 3.0})
+
 
 if __name__ == "__main__":
     unittest.main()
