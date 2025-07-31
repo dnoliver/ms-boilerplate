@@ -25,7 +25,26 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-buildx-
 
-    - name: Build Docker image
+    - name: Build test image
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        target: builder
+        push: false
+        load: true
+        tags: ms-boilerplate-test:${{ github.sha }}
+        cache-from: type=local,src=/tmp/.buildx-cache
+        cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
+
+    - name: Run tests
+      run: |
+        docker run --rm \
+          --mount type=bind,source=${{ github.workspace }},target=/app \
+          --workdir /app \
+          ms-boilerplate-test:${{ github.sha }} \
+          poetry run test
+
+    - name: Build App image
       uses: docker/build-push-action@v5
       with:
         context: .

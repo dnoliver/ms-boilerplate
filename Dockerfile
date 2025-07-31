@@ -17,7 +17,7 @@ WORKDIR /app
 
 COPY pyproject.toml poetry.lock README.md scripts.py ./
 
-RUN --mount=type=cache,target=$POETRY_CACHE_DIR poetry install --without dev --no-root
+RUN --mount=type=cache,target=$POETRY_CACHE_DIR poetry install --with dev --no-root
 
 FROM python:3.12-slim-bullseye AS runtime
 
