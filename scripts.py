@@ -20,3 +20,11 @@ def test():
             "test_*.py",
         ]
     )
+
+
+def app():
+    """
+    Run the application. Equivalent to:
+    `poetry run python -u -m app`
+    """
+    subprocess.run(["python", "-u", "-m", "fastapi", "run"])

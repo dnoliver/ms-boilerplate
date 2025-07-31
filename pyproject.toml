@@ -7,7 +7,7 @@ authors = [
 ]
 license = {text = "MIT"}
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.12"
 dependencies = [
     "fastapi[standard] (>=0.116.1,<0.117.0)"
 ]
@@ -16,6 +16,7 @@ dependencies = [
 
 [tool.poetry.scripts]
 test = "scripts:test"
+app = "scripts:app"
 
 [tool.poetry.group.dev.dependencies]
 pylint = "^3.3.7"

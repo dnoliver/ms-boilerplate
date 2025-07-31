@@ -27,6 +27,7 @@ files = [
 [package.dependencies]
 idna = ">=2.8"
 sniffio = ">=1.1"
+typing_extensions = {version = ">=4.5", markers = "python_version < \"3.13\""}
 
 [package.extras]
 doc = ["Sphinx (>=8.2,<9.0)", "packaging", "sphinx-autodoc-typehints (>=1.2.0)", "sphinx_rtd_theme"]
@@ -1225,6 +1226,7 @@ files = [
 
 [package.dependencies]
 anyio = ">=3.6.2,<5"
+typing-extensions = {version = ">=4.10.0", markers = "python_version < \"3.13\""}
 
 [package.extras]
 full = ["httpx (>=0.27.0,<0.29.0)", "itsdangerous", "jinja2", "python-multipart (>=0.0.18)", "pyyaml"]
@@ -1604,5 +1606,5 @@ files = [
 
 [metadata]
 lock-version = "2.1"
-python-versions = ">=3.13"
-content-hash = "5cfdf70e56bc449cfa6d990d9cb7b2b4f81c4232fd5ad4ded3a725b86f841215"
+python-versions = ">=3.12"
+content-hash = "ea2391802f7c7a2221dc503f0a4be47aa519a4ce27b5b228a68fcd7631226faa"

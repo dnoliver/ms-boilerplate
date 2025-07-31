@@ -1,4 +1,10 @@
-FROM python:3.13-bullseye AS builder
+FROM mcr.microsoft.com/devcontainers/python:1-3.12-bullseye AS dev
+
+RUN pip install poetry==2.1.3
+
+CMD ["sleep", "infinity"]
+
+FROM python:3.12-bullseye AS builder
 
 RUN pip install poetry==2.1.3
 
@@ -9,12 +15,11 @@ ENV POETRY_NO_INTERACTION=1 \
 
 WORKDIR /app
 
-COPY pyproject.toml poetry.lock ./
-RUN touch README.md
+COPY pyproject.toml poetry.lock README.md scripts.py ./
 
 RUN --mount=type=cache,target=$POETRY_CACHE_DIR poetry install --without dev --no-root
 
-FROM python:3.13-slim-bullseye AS runtime
+FROM python:3.12-slim-bullseye AS runtime
 
 ENV VIRTUAL_ENV=/app/.venv \
     PATH="/app/.venv/bin:$PATH"

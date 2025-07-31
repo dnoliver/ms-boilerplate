@@ -1,0 +1,18 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/python
+{
+	"name": "Python 3",
+
+	"build": {
+        "dockerfile": "../Dockerfile",
+        "context": "..",
+        "options": ["--target=dev"]
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": []
+        }
+    },
+    "forwardPorts": [8000],
+    "postCreateCommand": "poetry install --no-interaction --no-ansi"
+}
