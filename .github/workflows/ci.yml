@@ -42,7 +42,7 @@ jobs:
           --mount type=bind,source=${{ github.workspace }},target=/app \
           --workdir /app \
           ms-boilerplate-test:${{ github.sha }} \
-          poetry run test
+          bash -c "poetry install && poetry run test"
 
     - name: Build App image
       uses: docker/build-push-action@v5

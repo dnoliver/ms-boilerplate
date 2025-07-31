@@ -18,7 +18,8 @@ def test():
             "./test",
             "-p",
             "test_*.py",
-        ]
+        ],
+        check=True,
     )
 
 
