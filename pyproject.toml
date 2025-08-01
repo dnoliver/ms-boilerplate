@@ -15,8 +15,8 @@ dependencies = [
 [tool.poetry]
 
 [tool.poetry.scripts]
-pylint = "scripts:pylint"
-bandit = "scripts:bandit"
+lint = "scripts:pylint"
+scan = "scripts:bandit"
 unittest = "scripts:unittest"
 app = "scripts:app"
 
