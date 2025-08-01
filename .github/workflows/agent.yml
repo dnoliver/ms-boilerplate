@@ -46,8 +46,7 @@ jobs:
         run: |
           cd SWE-agent
           source .venv/bin/activate
-          sweagent -h
-          echo sweagent run \
+          sweagent run \
             --agent.model.name=claude-sonnet-4-20250514 \
             --agent.model.per_instance_cost_limit=2.00 \
             --env.repo.github_url=${{ github.server_url }}/${{ github.repository }} \
@@ -55,6 +54,10 @@ jobs:
             --env.deployment.image=ms-boilerplate-dev:${{ github.sha }} \
             --env.post_startup_commands="poetry install --no-interaction --no-ansi" \
             --actions.open_pr=true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 
       # This step is needed to properly handle the cache
       - name: Move cache
