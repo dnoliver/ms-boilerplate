@@ -1,0 +1,63 @@
+name: SWE-Agent
+
+on:
+  issues:
+    types: [pinned]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Cache Docker layers
+        uses: actions/cache@v4
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+
+      - name: Build dev image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          target: dev
+          push: false
+          load: true
+          tags: ms-boilerplate-dev:${{ github.sha }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
+
+      - name: Install agent
+        run: |
+          git clone https://github.com/SWE-agent/SWE-agent.git
+          cd SWE-agent
+          python3 -m venv .venv
+          source .venv/bin/activate
+          python -m pip install --upgrade pip && pip install --editable .
+
+      - name: Run agent
+        run: |
+          cd SWE-agent
+          source .venv/bin/activate
+          sweagent -h
+          echo sweagent run \
+            --agent.model.name=claude-sonnet-4-20250514 \
+            --agent.model.per_instance_cost_limit=2.00 \
+            --env.repo.github_url=${{ github.server_url }}/${{ github.repository }} \
+            --problem_statement.github_url=${{ github.event.issue.html_url }} \
+            --env.deployment.image=ms-boilerplate-dev:${{ github.sha }} \
+            --env.post_startup_commands="poetry install --no-interaction --no-ansi" \
+            --actions.open_pr=true
+
+      # This step is needed to properly handle the cache
+      - name: Move cache
+        run: |
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
