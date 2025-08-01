@@ -47,6 +47,14 @@ jobs:
           cd SWE-agent
           source .venv/bin/activate
           sweagent -h
+          echo sweagent run \
+            --agent.model.name=claude-sonnet-4-20250514 \
+            --agent.model.per_instance_cost_limit=2.00 \
+            --env.repo.github_url=${{ github.server_url }}/${{ github.repository }} \
+            --problem_statement.github_url=${{ github.event.issue.html_url }} \
+            --env.deployment.image=ms-boilerplate-dev:${{ github.sha }} \
+            --env.post_startup_commands="poetry install --no-interaction --no-ansi" \
+            --actions.open_pr=true
 
       # This step is needed to properly handle the cache
       - name: Move cache
