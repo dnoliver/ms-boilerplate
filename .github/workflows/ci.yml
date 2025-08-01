@@ -36,13 +36,13 @@ jobs:
         cache-from: type=local,src=/tmp/.buildx-cache
         cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
 
-    - name: Run tests
+    - name: Run unit tests
       run: |
         docker run --rm \
           --mount type=bind,source=${{ github.workspace }},target=/app \
           --workdir /app \
           ms-boilerplate-test:${{ github.sha }} \
-          bash -c "poetry install && poetry run test"
+          bash -c "poetry install && poetry run unittest"
 
     - name: Build App image
       uses: docker/build-push-action@v5
