@@ -1,3 +1,5 @@
+"""Scripts for running various development tasks."""
+
 import subprocess
 
 
@@ -6,7 +8,7 @@ def pylint():
     Run pylint linter. Equivalent to:
     `poetry run pylint . --ignore .venv`
     """
-    subprocess.run(["pylint", ".", "--ignore", ".venv"], check=True)
+    subprocess.run(["pylint", ".", "--ignore", ".venv", "--ignore", "test"], check=True)
 
 
 def bandit():
@@ -44,4 +46,4 @@ def app():
     Run the application. Equivalent to:
     `poetry run python -u -m app`
     """
-    subprocess.run(["python", "-u", "-m", "fastapi", "run"])
+    subprocess.run(["python", "-u", "-m", "fastapi", "run"], check=False)

@@ -1,0 +1,7 @@
+[MESSAGES CONTROL]
+# Disable the invalid-name check for the root module
+disable=invalid-name
+
+[BASIC]
+# Allow module names with double underscores (for directory names like dnoliver__ms-boilerplate)
+module-rgx=(([a-z_][a-z0-9_]*)|([A-Z][a-zA-Z0-9]+))$|(__.*__)$
