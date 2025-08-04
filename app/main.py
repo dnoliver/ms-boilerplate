@@ -1,4 +1,5 @@
 """FastAPI application main module."""
+
 from fastapi import FastAPI, HTTPException
 
 app = FastAPI()
