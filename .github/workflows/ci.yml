@@ -36,6 +36,14 @@ jobs:
         cache-from: type=local,src=/tmp/.buildx-cache
         cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
 
+    - name: Run lint checks
+      run: |
+        docker run --rm \
+          --mount type=bind,source=${{ github.workspace }},target=/app \
+          --workdir /app \
+          ms-boilerplate-test:${{ github.sha }} \
+          bash -c "poetry install && poetry run lint"
+
     - name: Run unit tests
       run: |
         docker run --rm \
