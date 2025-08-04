@@ -52,6 +52,14 @@ jobs:
           ms-boilerplate-test:${{ github.sha }} \
           bash -c "poetry install && poetry run unittest"
 
+    - name: Run security scan
+      run: |
+        docker run --rm \
+          --mount type=bind,source=${{ github.workspace }},target=/app \
+          --workdir /app \
+          ms-boilerplate-test:${{ github.sha }} \
+          bash -c "poetry install && poetry run scan"
+
     - name: Build App image
       uses: docker/build-push-action@v5
       with:
