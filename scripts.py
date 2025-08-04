@@ -8,7 +8,9 @@ def pylint():
     Run pylint linter. Equivalent to:
     `poetry run pylint . --ignore .venv`
     """
-    subprocess.run(["pylint", ".", "--ignore", ".venv", "--ignore", "test"], check=True)  # nosec B603 B607
+    subprocess.run(
+        ["pylint", ".", "--ignore", ".venv", "--ignore", "test"], check=True
+    )  # nosec B603 B607
 
 
 def bandit():
@@ -16,7 +18,9 @@ def bandit():
     Run bandit security linter. Equivalent to:
     `poetry run bandit -r . --exclude .venv`
     """
-    subprocess.run(["bandit", "-r", ".", "--exclude", "./.venv"], check=True)  # nosec B603 B607
+    subprocess.run(
+        ["bandit", "-r", ".", "--exclude", "./.venv"], check=True
+    )  # nosec B603 B607
 
 
 def unittest():
@@ -46,4 +50,6 @@ def app():
     Run the application. Equivalent to:
     `poetry run python -u -m app`
     """
-    subprocess.run(["python", "-u", "-m", "fastapi", "run"], check=False)  # nosec B603 B607
+    subprocess.run(
+        ["python", "-u", "-m", "fastapi", "run"], check=False
+    )  # nosec B603 B607
