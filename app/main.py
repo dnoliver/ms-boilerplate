@@ -36,7 +36,7 @@ async def format_content(request: Request):
     """Format a JSON or YAML string in a human-readable way."""
     # Get content type
     content_type = request.headers.get("content-type", "application/json")
-    
+
     # Parse the request body
     try:
         if content_type.startswith("application/yaml"):
@@ -44,18 +44,20 @@ async def format_content(request: Request):
             body = await request.body()
             # Parse as JSON first to get the structure
             try:
-                data = json.loads(body.decode('utf-8'))
+                data = json.loads(body.decode("utf-8"))
             except json.JSONDecodeError as e:
                 raise HTTPException(
                     status_code=400, detail=f"Invalid request body: {str(e)}"
                 ) from e
-            
+
             if "yaml_string" in data:
                 yaml_content = data["yaml_string"]
                 try:
                     # Parse and format YAML
                     parsed_yaml = yaml.safe_load(yaml_content)
-                    formatted_yaml = yaml.dump(parsed_yaml, default_flow_style=False, indent=2)
+                    formatted_yaml = yaml.dump(
+                        parsed_yaml, default_flow_style=False, indent=2
+                    )
                     return {"formatted": formatted_yaml.strip()}
                 except yaml.YAMLError as e:
                     raise HTTPException(
@@ -63,25 +65,28 @@ async def format_content(request: Request):
                     ) from e
             else:
                 raise HTTPException(
-                    status_code=400, detail="yaml_string field is required for YAML content type"
+                    status_code=400,
+                    detail="yaml_string field is required for YAML content type",
                 )
         else:
             # Handle JSON content type (default behavior)
             body = await request.body()
             try:
-                data = json.loads(body.decode('utf-8'))
+                data = json.loads(body.decode("utf-8"))
             except json.JSONDecodeError as e:
                 raise HTTPException(
                     status_code=400, detail=f"Invalid request body: {str(e)}"
                 ) from e
-            
+
             # Check for json_string or yaml_string
             if "json_string" in data:
                 json_content = data["json_string"]
                 try:
                     # Parse and format JSON
                     parsed_json = json.loads(json_content)
-                    formatted_json = json.dumps(parsed_json, indent=2, ensure_ascii=False)
+                    formatted_json = json.dumps(
+                        parsed_json, indent=2, ensure_ascii=False
+                    )
                     return {"formatted": formatted_json}
                 except json.JSONDecodeError as e:
                     raise HTTPException(
@@ -92,7 +97,9 @@ async def format_content(request: Request):
                 try:
                     # Parse and format YAML
                     parsed_yaml = yaml.safe_load(yaml_content)
-                    formatted_yaml = yaml.dump(parsed_yaml, default_flow_style=False, indent=2)
+                    formatted_yaml = yaml.dump(
+                        parsed_yaml, default_flow_style=False, indent=2
+                    )
                     return {"formatted": formatted_yaml.strip()}
                 except yaml.YAMLError as e:
                     raise HTTPException(
@@ -100,7 +107,8 @@ async def format_content(request: Request):
                     ) from e
             else:
                 raise HTTPException(
-                    status_code=400, detail="Either json_string or yaml_string field is required"
+                    status_code=400,
+                    detail="Either json_string or yaml_string field is required",
                 )
     except HTTPException:
         raise

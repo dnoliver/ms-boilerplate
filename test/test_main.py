@@ -82,11 +82,13 @@ class TestMain(unittest.TestCase):
 
     def test_format_yaml_valid(self):
         """Test formatting a valid YAML string."""
-        yaml_string = "name: John Doe\nage: 30\naddress:\n  street: 123 Main St\n  city: New York"
+        yaml_string = (
+            "name: John Doe\nage: 30\naddress:\n  street: 123 Main St\n  city: New York"
+        )
         response = self.client.post(
-            "/format", 
+            "/format",
             json={"yaml_string": yaml_string},
-            headers={"Content-Type": "application/json"}
+            headers={"Content-Type": "application/json"},
         )
         self.assertEqual(response.status_code, 200)
         result = response.json()["formatted"]
@@ -97,12 +99,14 @@ class TestMain(unittest.TestCase):
 
     def test_format_yaml_with_yaml_content_type(self):
         """Test formatting YAML with application/yaml content type."""
-        yaml_string = "name: John Doe\nage: 30\naddress:\n  street: 123 Main St\n  city: New York"
+        yaml_string = (
+            "name: John Doe\nage: 30\naddress:\n  street: 123 Main St\n  city: New York"
+        )
         # Send as YAML content type
         response = self.client.post(
             "/format",
-            data='{"yaml_string": "' + yaml_string.replace('\n', '\\n') + '"}',
-            headers={"Content-Type": "application/yaml"}
+            data='{"yaml_string": "' + yaml_string.replace("\n", "\\n") + '"}',
+            headers={"Content-Type": "application/yaml"},
         )
         self.assertEqual(response.status_code, 200)
         result = response.json()["formatted"]
