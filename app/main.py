@@ -38,4 +38,6 @@ def format_json(request: JsonFormatRequest):
         formatted_json = json.dumps(parsed_json, indent=2, ensure_ascii=False)
         return {"formatted": formatted_json}
     except json.JSONDecodeError as e:
-        raise HTTPException(status_code=400, detail=f"Invalid JSON string: {str(e)}")
+        raise HTTPException(
+            status_code=400, detail=f"Invalid JSON string: {str(e)}"
+        ) from e
